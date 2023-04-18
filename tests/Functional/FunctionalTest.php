@@ -9,6 +9,7 @@ use Gajus\Dindent\Indenter;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Memory\MemoryAdapter;
 use phpDocumentor\Guides\ApplicationTestCase;
+use phpDocumentor\Guides\Compiler\Compiler;
 use phpDocumentor\Guides\Metas;
 use phpDocumentor\Guides\NodeRenderers\DelegatingNodeRenderer;
 use phpDocumentor\Guides\Parser;
@@ -74,6 +75,9 @@ class FunctionalTest extends ApplicationTestCase
 
         $parser = $this->getContainer()->get(Parser::class);
         $document = $parser->parse($rst);
+
+        $compiler = $this->getContainer()->get(Compiler::class);
+        $document = $compiler->run([$document])[0];
 
         $renderer = $this->getContainer()->get(DelegatingNodeRenderer::class);
         $context = RenderContext::forDocument(

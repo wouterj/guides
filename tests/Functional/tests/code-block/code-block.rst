@@ -8,3 +8,18 @@
     {
         cout << "Hello world!" << endl;
     }
+
+.. code-block:: php
+    :class: hide
+
+    <?php
+
+    echo 'Hi';
+
+.. class:: hide
+
+.. code-block:: php
+
+    <?php
+
+    echo 'Hi';

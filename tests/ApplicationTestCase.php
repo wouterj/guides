@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace phpDocumentor\Guides;
 
 use phpDocumentor\Guides\Cli\Application;
+use phpDocumentor\Guides\Compiler\Compiler;
 use phpDocumentor\Guides\DependencyInjection\Compiler\NodeRendererPass;
 use phpDocumentor\Guides\NodeRenderers\DelegatingNodeRenderer;
 use PHPUnit\Framework\TestCase;
@@ -40,6 +41,7 @@ class ApplicationTestCase extends TestCase
             {
                 $container->getDefinition(Parser::class)->setPublic(true);
                 $container->getDefinition(DelegatingNodeRenderer::class)->setPublic(true);
+                $container->getDefinition(Compiler::class)->setPublic(true);
             }
         });
 
