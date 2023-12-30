@@ -27,15 +27,6 @@ class DocReferenceTextRole extends AbstractReferenceTextRole
     /** @return DocReferenceNode */
     protected function createNode(string $referenceTarget, string|null $referenceName, string $role): AbstractLinkInlineNode
     {
-        $pattern =  AbstractReferenceTextRole::INTERLINK_REGEX;
-        if (preg_match($pattern, $referenceTarget, $matches)) {
-            $interlinkDomain = $matches[1];
-            $path = $matches[2];
-        } else {
-            $interlinkDomain = '';
-            $path = $referenceTarget;
-        }
-
-        return new DocReferenceNode($path, $referenceName ?? '', $interlinkDomain);
+        return new DocReferenceNode($referenceTarget, $referenceName ?? '');
     }
 }

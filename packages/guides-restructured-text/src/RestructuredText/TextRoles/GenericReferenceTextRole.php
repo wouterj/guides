@@ -9,7 +9,6 @@ use phpDocumentor\Guides\Nodes\Inline\ReferenceNode;
 use phpDocumentor\Guides\ReferenceResolvers\AnchorReducer;
 
 use function array_keys;
-use function preg_match;
 
 class GenericReferenceTextRole extends AbstractReferenceTextRole
 {
@@ -34,15 +33,8 @@ class GenericReferenceTextRole extends AbstractReferenceTextRole
     protected function createNode(string $referenceTarget, string|null $referenceName, string $role): AbstractLinkInlineNode
     {
         $linkType = $this->genericLinkProvider->getLinkType($role);
-        $pattern = '/^([a-zA-Z0-9]+):(.*$)/';
-        if (preg_match(AbstractReferenceTextRole::INTERLINK_REGEX, $referenceTarget, $matches)) {
-            $interlinkDomain = $matches[1];
-            $id = $this->anchorReducer->reduceAnchor($matches[2]);
-        } else {
-            $interlinkDomain = '';
-            $id = $this->anchorReducer->reduceAnchor($referenceTarget);
-        }
+        $id = $this->anchorReducer->reduceAnchor($referenceTarget);
 
-        return new ReferenceNode($id, $referenceName ?? '', $interlinkDomain, $linkType);
+        return new ReferenceNode($id, $referenceName ?? '', $linkType);
     }
 }

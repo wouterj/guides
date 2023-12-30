@@ -26,13 +26,11 @@ class DocReferenceTextRoleTest extends TestCase
         string $span,
         string $url,
         string|null $text = null,
-        string $domain = '',
     ): void {
         $result = $this->docReferenceTextRole->processNode($this->documentParserContext, 'doc', $span, $span);
 
         self::assertInstanceOf(DocReferenceNode::class, $result);
         self::assertEquals($url, $result->getTargetReference(), 'DocumentLinks are different');
-        self::assertEquals($domain, $result->getInterlinkDomain(), 'Interlink domains are different');
         self::assertEquals($text ?? '', $result->toString());
     }
 
@@ -54,15 +52,13 @@ class DocReferenceTextRoleTest extends TestCase
             ],
             'doc with domain' => [
                 'span' => 'mydomain:path/to/document',
-                'url' => 'path/to/document',
+                'url' => 'mydomain:path/to/document',
                 'text' => null,
-                'domain' => 'mydomain',
             ],
             'doc role, anchor and custom text' => [
                 'span' => 'link <mydomain:foo/subdoc#anchor>',
-                'url' => 'foo/subdoc#anchor',
+                'url' => 'mydomain:foo/subdoc#anchor',
                 'text' => 'link',
-                'domain' => 'mydomain',
             ],
             'doc role, with greater-than character in text' => [
                 'span' => 'text->sometext <subdoc>',

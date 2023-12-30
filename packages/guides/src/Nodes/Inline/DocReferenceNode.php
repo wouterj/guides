@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Guides\Nodes\Inline;
 
-use function array_merge;
-
 /**
  * Represents a link to document
  *
@@ -16,28 +14,14 @@ use function array_merge;
  * :doc:`custom text <foo>`
  * :doc:`custom text <domain:foo/subdoc#anchor>`
  */
-class DocReferenceNode extends AbstractLinkInlineNode implements CrossReferenceNode
+class DocReferenceNode extends AbstractLinkInlineNode
 {
     final public const TYPE = 'doc';
 
     public function __construct(
         string $targetDocument,
         string $value = '',
-        private readonly string $interlinkDomain = '',
     ) {
         parent::__construct(self::TYPE, $targetDocument, $value);
-    }
-
-    public function getInterlinkDomain(): string
-    {
-        return $this->interlinkDomain;
-    }
-
-    /** @return array<string, string> */
-    public function getDebugInformation(): array
-    {
-        return array_merge(parent::getDebugInformation(), [
-            'interlinkDomain' => $this->getInterlinkDomain(),
-        ]);
     }
 }

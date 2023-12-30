@@ -12,10 +12,13 @@ use phpDocumentor\Guides\RenderContext;
 use Psr\Log\LoggerInterface;
 
 use function array_merge;
+use function preg_match;
 use function sprintf;
 
 class InterlinkReferenceResolver implements ReferenceResolver
 {
+    /** @see https://regex101.com/r/htMn5p/2 */
+    private const INTERLINK_REGEX = '/^([a-zA-Z0-9-_]+):(?!\/\/)(.*$)/';
     public final const PRIORITY = 50;
 
     public function __construct(
@@ -26,12 +29,17 @@ class InterlinkReferenceResolver implements ReferenceResolver
 
     public function resolve(LinkInlineNode $node, RenderContext $renderContext): bool
     {
-        if (!$node instanceof CrossReferenceNode || $node->getInterlinkDomain() === '') {
+        if (!$node instanceof CrossReferenceNode) {
             return false;
         }
 
-        $domain = $node->getInterlinkDomain();
-        $target = $node->getTargetReference();
+        $reference = $node->getTargetReference();
+        if (!preg_match(self::INTERLINK_REGEX, $reference, $matches)) {
+            return false;
+        }
+
+        $domain = $matches[1];
+        $target = $matches[2];
         if (!$this->inventoryRepository->hasInventory($domain)) {
             $this->logger->warning(
                 sprintf(
