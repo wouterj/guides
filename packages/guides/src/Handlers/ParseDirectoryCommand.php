@@ -22,7 +22,9 @@ use phpDocumentor\Guides\Nodes\ProjectNode;
 
 final class ParseDirectoryCommand
 {
+    /** @phpstan-ignore property.uninitializedReadonly intentionally uninitialized for proper deprecation reporting */
     private readonly SpecificationInterface|null $excludedSpecification;
+    /** @phpstan-ignore property.uninitializedReadonly intentionally uninitialized for proper deprecation reporting */
     private readonly Exclude|null $exclude;
 
     public function __construct(
@@ -40,10 +42,8 @@ final class ParseDirectoryCommand
                 . 'use phpDocumentor\FileSystem\Finder\Exclude instead.',
             );
             $this->excludedSpecification = $excludedSpecification;
-            $this->exclude = null;
         } else {
             $this->exclude = $excludedSpecification;
-            $this->excludedSpecification = null;
         }
     }
 
